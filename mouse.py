@@ -40,30 +40,24 @@ class GestureMouseController:
         self.scroll_cooldown = 0.05
         self.scroll_buffer = []
         self.max_buffer_size = 5
-        
-        # Pinch detection
-        self.pinch_threshold = 0.03
 
     def calculate_distance(self, p1, p2):
         return hypot(p1.x - p2.x, p1.y - p2.y)
 
     def get_finger_states(self, hand_landmarks):
-        """Finger state detection with thumb tracking"""
+        """Determine which fingers are up."""
         fingers = []
-        
-        # Thumb
         thumb_tip = hand_landmarks.landmark[4]
         thumb_ip = hand_landmarks.landmark[3]
-        fingers.append((thumb_tip.x < thumb_ip.x))
+        fingers.append((thumb_tip.x < thumb_ip.x))  # Thumb
         
-        # Index, middle, ring, pinky
         tips = [8, 12, 16, 20]
         for tip in tips:
             fingers.append(hand_landmarks.landmark[tip].y < hand_landmarks.landmark[tip - 2].y)
-                
         return fingers
 
     def handle_mouse_movement(self, hand_landmarks, frame_shape):
+        """Hovering logic."""
         index_tip = hand_landmarks.landmark[8]
         x = int(index_tip.x * frame_shape[1])
         y = int(index_tip.y * frame_shape[0])
@@ -85,15 +79,46 @@ class GestureMouseController:
         self.prev_x, self.prev_y = x, y
 
     def handle_click(self):
+        """Clicking logic."""
         current_time = time.time()
         if current_time - self.last_click_time > self.click_cooldown:
             pyautogui.click()
             self.last_click_time = current_time
 
+    def handle_scrolling(self, hand_landmarks, frame_shape):
+        """Enhanced scrolling with pressure/intensity-based sensitivity."""
+        current_time = time.time()
+        if current_time - self.last_scroll_time < self.scroll_cooldown:
+            return
+            
+        index_tip = hand_landmarks.landmark[8]
+        middle_tip = hand_landmarks.landmark[12]
+        
+        # Calculate finger separation as a proxy for "pressure"
+        finger_distance = self.calculate_distance(index_tip, middle_tip)
+        current_y = (index_tip.y + middle_tip.y) / 2 * frame_shape[0]
+        
+        # Add to rolling buffer for smooth movement detection
+        self.scroll_buffer.append(current_y)
+        if len(self.scroll_buffer) > self.max_buffer_size:
+            self.scroll_buffer.pop(0)
+        
+        if len(self.scroll_buffer) >= 2:
+            # Calculate moving average for smoother scrolling
+            avg_movement = (self.scroll_buffer[-1] - self.scroll_buffer[0]) / len(self.scroll_buffer)
+            
+            # Adjust scroll speed based on finger separation (pressure proxy)
+            pressure_factor = 1.0 + (0.05 - finger_distance) * 20  # Increases speed when fingers are closer
+            scroll_amount = int(avg_movement * self.scroll_speed * pressure_factor)
+            
+            # Apply threshold to prevent accidental scrolling
+            if abs(scroll_amount) > 1:
+                pyautogui.scroll(scroll_amount)
+                self.last_scroll_time = current_time
+
     def run(self):
         cap = cv2.VideoCapture(0)
         tap_threshold_y = 0.02
-        stable_threshold = 0.01
 
         while True:
             ret, frame = cap.read()
@@ -110,17 +135,19 @@ class GestureMouseController:
                 
                 fingers = self.get_finger_states(hand_landmarks)
                 
-                if fingers[1] and not fingers[2]:  # Only index finger up (hover mode)
+                if fingers[1] and not fingers[2]:  # Hovering and clicking mode with index finger up only
                     index_tip = hand_landmarks.landmark[8]
 
                     if self.prev_index_y is not None and index_tip.y > self.prev_index_y + tap_threshold_y:
                         self.handle_click()
-                        self.prev_index_y = index_tip.y
                     else:
                         self.handle_mouse_movement(hand_landmarks, frame.shape)
 
                     self.prev_index_y = index_tip.y
                 
+                elif fingers[1] and fingers[2]:  # Scrolling mode with both index and middle fingers up
+                    self.handle_scrolling(hand_landmarks, frame.shape)
+                    
             cv2.imshow('Gesture Mouse Control', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break

@@ -3,6 +3,32 @@
 
 Experience futuristic, gesture-driven screen interactions that bring a new level of immersion to everyday tasks. With intuitive gestures for hovering, clicking, scrolling, and zooming, control your screen as if you're in a sci-fi film!
 
+## Demo Video 🎬
+
+Check out a **Demo Video** highlighting the Gesture-Based Virtual Mouse's main features, including gesture-controlled scrolling, clicking, hovering, and more. Click below to see it in action:
+
+[View Sample Video on Google Drive](https://drive.google.com/file/d/10LgrhLyp2qejD1mUkUSb1wo8zd0l19Zt/view)
+
+Alternatively, you can download and view the video offline using the link above.
+
+<video width="600" controls autoplay loop>
+  <source src="https://drive.google.com/file/d/10LgrhLyp2qejD1mUkUSb1wo8zd0l19Zt/view" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
+--
+
+Check out a **Demo Video** highlighting the Gesture-Based Gesture Baased Zoom's main features. Click below to see it in action:
+
+[View Sample Video on Google Drive](https://drive.google.com/file/d/1v2gy0wtA9BaequpANIzFSUuGHsuzfM4b/view)
+
+Alternatively, you can download and view the video offline using the link above.
+
+<video width="600" controls autoplay loop>
+  <source src="https://drive.google.com/file/d/1v2gy0wtA9BaequpANIzFSUuGHsuzfM4b/view" type="video/mp4">
+  Your browser does not support the video tag.
+</video>
+
 ## Features
 
 ### 🌐 Virtual Mouse
@@ -24,7 +50,7 @@ Experience futuristic, gesture-driven screen interactions that bring a new level
 
 1. Clone this repository:
    ```bash
-   git clone 
+   git clone https://github.com/THE-DEEPDAS/Gesture-Based-Screen-Control.git
    ```
 2. Navigate to the project folder:
    ```bash
@@ -32,7 +58,7 @@ Experience futuristic, gesture-driven screen interactions that bring a new level
    ```
 3. Install dependencies:
    ```bash
-   pip install -r requirements.txt
+   pip install -r requirements.txt(coming soon)
    ```
 
 ## Usage
@@ -66,4 +92,4 @@ Contributions to enhance functionality, gestures, and responsiveness are welcome
 
 ## License
 
-This project is licensed under the MIT License.
+This project is licensed to me so please use it for good purpose and give credits if you want to(i will feel good :D).
