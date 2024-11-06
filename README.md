@@ -8,7 +8,7 @@ Experience futuristic, gesture-driven screen interactions that bring a new level
 Check out a **Demo Video** highlighting the Gesture-Based Virtual Mouse's main features, including gesture-controlled scrolling, clicking, hovering, and more. Click below to see it in action:
 
 [View Sample Video on Google Drive](https://drive.google.com/file/d/10LgrhLyp2qejD1mUkUSb1wo8zd0l19Zt/view)
-[View Sample Video on Google Drive](https://drive.google.com/file/d/1WmWicwYq5hDuGl0m2cJHvVGKMKcx4ueB/view)
+[View Sample Video on Google Drive](https://drive.google.com/file/d/1_oGV6cpSzjz5Hrt8LnCMwrODMw6v25W4/view?usp=sharing)
 
 Alternatively, you can download and view the video offline using the link above.
 
@@ -17,7 +17,7 @@ Alternatively, you can download and view the video offline using the link above.
   Your browser does not support the video tag.
 </video>
 <video width="600" controls autoplay loop>
-  <source src="https://drive.google.com/file/d/1WmWicwYq5hDuGl0m2cJHvVGKMKcx4ueB/view" type="video/mp4">
+  <source src="https://drive.google.com/file/d/1_oGV6cpSzjz5Hrt8LnCMwrODMw6v25W4/view?usp=sharing" type="video/mp4">
   Your browser does not support the video tag.
 </video>
 
